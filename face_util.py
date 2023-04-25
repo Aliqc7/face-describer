@@ -5,6 +5,7 @@ import boto3
 from botocore.exceptions import ClientError
 import ast
 import math
+from pathlib import Path
 
 
 def image_to_jpg(image_name):
@@ -75,3 +76,23 @@ def get_openai_api_key(secret_name, region_name):
     secret = get_secret_value_response['SecretString']
     secret_dict = ast.literal_eval(secret)
     return next(iter(secret_dict))
+
+
+def copy_model_from_s3(model_name):
+
+    if not Path(model_name).is_dir():
+        s3 = boto3.resource('s3')
+        bucket_name = 'face-effnet-model'
+        prefix = f'{model_name}/'
+
+        # List all objects in the S3 bucket
+        bucket = s3.Bucket(bucket_name)
+
+        for elem in bucket.objects.filter(Prefix=prefix):
+            key = elem.key
+            s = key.split('/')
+            dir = '/'.join(s[:-1])
+            file = s[-1]
+            Path(dir).mkdir(parents=True, exist_ok=True)
+            if file:
+                bucket.download_file(key, key)

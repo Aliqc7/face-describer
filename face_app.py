@@ -23,6 +23,8 @@ attributes = ["5_o_Clock_Shadow", "Bald", "Black_Hair", "Blond_Hair", "Brown_Hai
               "Eyeglasses", "Goatee", "Gray_Hair", "Male", "Mustache", "Smiling", "No_Beard",
               "Wearing_Earrings", "Wearing_Hat"]
 
+model_name = "face_eff_net_trained_on_all_cleaned_data"
+
 st.set_page_config(page_title=page_title, page_icon=page_icon, layout=layout)
 st.title(page_title + "" + page_icon)
 
@@ -44,8 +46,13 @@ def create_mtcnn_detector():
 def set_open_ai_key():
     return face_util.get_openai_api_key(secret_name, region_name)
 
+@st.cache_resource
+def download_trained_model():
+    face_util.copy_model_from_s3(model_name)
 
-trained_model = load_model("face_eff_net_trained_on_all_cleaned_data")
+
+download_trained_model(model_name)
+trained_model = load_model(model_name)
 detector = create_mtcnn_detector()
 openai.api_key = set_open_ai_key()
 

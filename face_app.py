@@ -28,7 +28,13 @@ model_name = "face_eff_net_trained_on_all_cleaned_data"
 st.set_page_config(page_title=page_title, page_icon=page_icon, layout=layout)
 st.title(page_title + "" + page_icon)
 
-uploaded_file = st.file_uploader("Upload an image of a face!", type=file_types)
+with st.container():
+    st.write("""
+    **Please upload an image showing the faces of one of more people. The application detects the faces in the image and describes them.**
+    
+    """)
+
+uploaded_file = st.file_uploader("Upload image", type=file_types)
 
 
 @st.cache_resource

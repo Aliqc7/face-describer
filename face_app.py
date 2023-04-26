@@ -47,7 +47,7 @@ def set_open_ai_key():
     return face_util.get_openai_api_key(secret_name, region_name)
 
 @st.cache_resource
-def download_trained_model():
+def download_trained_model(model_name):
     face_util.copy_model_from_s3(model_name)
 
 

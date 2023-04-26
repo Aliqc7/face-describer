@@ -30,7 +30,7 @@ st.title(page_title + "" + page_icon)
 
 with st.container():
     st.write("""
-    **Please upload an image showing the faces of one of more people. The application detects the faces in the image and describes them.**
+    **Please upload an image showing the faces of one or more people. The application detects the faces in the image and describes them.**
     
     """)
 
